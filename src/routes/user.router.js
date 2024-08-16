@@ -4,9 +4,17 @@ const userUseCase = require("../usecases/user.usecase");
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  res.status(400).json({
+    success: false,
+    message: "User ID is required",
+  });
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
+
     const user = await userUseCase.getById(id);
 
     res.json({

@@ -7,7 +7,7 @@ async function createPost(data) {
   if (!data.image) throw createError(400, "image is required");
   if (!data.body) throw createError(400, "body is required");
 
-  const newPost = await Post.create(data);
+  const newPost = (await Post.create(data)).populate("user");
 
   return newPost;
 }
@@ -25,7 +25,7 @@ async function updateById(id, newData) {
   if (!postFound) throw createError(404, "post not found");
 
   newData.user = postFound.user;
-  if (newData.tags) newData.trim().split(" ");
+  if (newData.tags) newData.tags.trim().split(" ");
 
   const post = await Post.findByIdAndUpdate(id, newData, { new: true });
 
