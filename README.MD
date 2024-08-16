@@ -1,6 +1,6 @@
 # Documentación Server Backend
 
-Este es un proyecto backend desarrollado con NodeJS siguiendo los principios de **Clean Architecture**. El proyecto incluye funcionalidades de autenticación con `JWT`, manejo de errores con `http-errors` y uso de MongoDB como base de datos, entre otras tecnologías.
+Este proyecto es una API RESTful diseñada para gestionar la autenticación y el manejo de usuarios y publicaciones. Implementa un sistema de registro, inicio de sesión y creación de publicaciones, utilizando un enfoque modular basado en la arquitectura limpia (Clean Architecture).
 
 ## Tecnologías Utilizadas
 
@@ -514,3 +514,7 @@ El servidor estará disponible en **http://localhost:8080**.
     "message": "You don't have permission to delete this post."
   }
   ```
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT. Para más detalles, consulta el archivo [LICENSE](LICENSE) en este repositorio.
