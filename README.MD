@@ -193,8 +193,8 @@ El servidor estará disponible en **http://localhost:8080**.
 
   ```json
   {
-    "password": "PASS123", //requerido
-    "email": "email@123.com" //requerido
+    "password": "PASS123",
+    "email": "email@123.com"
   }
   ```
 
@@ -259,10 +259,10 @@ El servidor estará disponible en **http://localhost:8080**.
 
   ```json
   {
-    "tags": "py js css ruby ", //requerido
-    "title": "test titulo", //requerido
-    "image": "tests.img", //requerido
-    "body": "description del test" //requerido
+    "tags": "py js css ruby ", 
+    "title": "test titulo", 
+    "image": "tests.img", 
+    "body": "description del test" 
   }
   ```
 
