@@ -11,6 +11,10 @@ async function createPost(data) {
 
   return newPost;
 }
+async function getAllPost() {
+  const posts = await Post.find({}).populate("user");
+  return posts;
+}
 
 async function getByTitle(title) {
   const regexTitle = new RegExp(title, "i");
@@ -48,4 +52,5 @@ module.exports = {
   getByTitle,
   updateById,
   deleteById,
+  getAllPost,
 };

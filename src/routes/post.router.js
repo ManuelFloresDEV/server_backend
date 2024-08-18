@@ -33,6 +33,32 @@ router.post("/", auth, async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const search = req.query.search;
+    if (search) {
+      const posts = await postUseCase.getByTitle(search.trim());
+
+      return res.json({
+        success: true,
+        message: "all Posts",
+        data: { posts: posts },
+      });
+    }
+    const posts = await postUseCase.getAllPost();
+    res.json({
+      success: true,
+      message: "All posts",
+      data: { posts },
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const search = req.query.search;
     if (!search) throw createError(400, "enter a title to search");
 
     const posts = await postUseCase.getByTitle(search.trim());
