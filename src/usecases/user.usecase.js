@@ -16,7 +16,9 @@ async function signup(data) {
 
   const newUser = await User.create(data);
 
-  return newUser;
+  const token = jwt.sign({ id: newUser._id });
+
+  return { user: newUser, token };
 }
 
 async function getById(id) {
