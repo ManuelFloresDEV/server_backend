@@ -413,8 +413,11 @@ El servidor estará disponible en **http://localhost:8080**.
 
   ```json
   {
-    "success": false,
-    "message": "enter a title to search"
+    "success": true,
+    "message": "Posts found by title",
+    "data": {
+      "posts": [{"return all posts"}]
+    }
   }
   ```
 
