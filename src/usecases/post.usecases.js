@@ -12,13 +12,20 @@ async function createPost(data) {
   return newPost;
 }
 async function getAllPost() {
-  const posts = await Post.find({}).populate("user");
+  const posts = await Post.find({})
+    .populate("user")
+    .populate("comments.user")
+    .populate("reactions.users");
   return posts;
 }
 
 async function getByTitle(title) {
   const regexTitle = new RegExp(title, "i");
-  const posts = await Post.find({ title: regexTitle }).populate("user");
+  const posts = await Post.find({ title: regexTitle })
+    .populate("user")
+    .populate("comments.user")
+    .populate("reactions.users");
+
   if (posts.length === 0) throw createError(404, "no matches found");
 
   return posts;
@@ -47,7 +54,58 @@ async function deleteById(idPost, userId) {
 
   return deletePost;
 }
+
+async function addComments(postId, commentData) {
+  const findPost = await Post.findById(postId);
+  if (!findPost) throw createError(404, "post not found");
+
+  if (!findPost.comments) {
+    findPost.comments = [];
+  }
+
+  findPost.comments.push(commentData);
+
+  await findPost.save();
+
+  return findPost.comments;
+}
+
+async function addReactions(postId, emoji, userId) {
+  const findPost = await Post.findById(postId);
+  if (!findPost) {
+    throw createError(404, "post not found");
+  }
+
+  const reactionIndex = findPost.reactions.findIndex(
+    (reaction) => reaction.reaction === emoji
+  );
+
+  if (reactionIndex !== -1) {
+    const userAlreadyReaction =
+      findPost.reactions[reactionIndex].users.includes(userId);
+
+    if (userAlreadyReaction) {
+      throw createError(409, "user has already reacted with this emoji");
+    } else {
+      findPost.reactions[reactionIndex].users.push(userId);
+      findPost.reactions[reactionIndex].count += 1;
+    }
+  } else {
+    findPost.reactions.push({
+      reaction: emoji,
+      count: 1,
+      users: [userId],
+    });
+  }
+
+  await findPost.save();
+
+  return findPost.reactions;
+}
+
 module.exports = {
+  addReactions,
+  addComments,
   createPost,
   getByTitle,
   updateById,

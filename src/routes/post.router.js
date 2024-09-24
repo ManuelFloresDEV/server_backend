@@ -93,4 +93,56 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
+router.patch("/:id/comments", auth, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { comment } = req.body;
+    const user = req.user;
+
+    const newComment = {
+      user: user._id,
+      comment,
+    };
+
+    const addComment = await postUseCase.addComments(id, newComment);
+
+    res.json({
+      success: true,
+      message: "add comment",
+      data: { comments: addComment },
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+router.patch("/:id/reactions", auth, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { reaction } = req.body;
+
+    if (!reaction) {
+      throw createError(400, "reaction is required in request body");
+    }
+
+    const user = req.user;
+
+    const addReaction = await postUseCase.addReactions(id, reaction, user._id);
+
+    res.json({
+      succes: true,
+      message: "add reaction",
+      data: { reactions: addReaction },
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
 module.exports = router;

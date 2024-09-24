@@ -1,5 +1,4 @@
 const express = require("express");
-const createError = require("http-errors");
 const userUseCase = require("../usecases/user.usecase");
 
 const router = express.Router();
